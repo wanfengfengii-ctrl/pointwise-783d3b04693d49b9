@@ -32,6 +32,7 @@ python3 -B demo.py
 - `ReceiptCatalog(path)` 管理实收库。`accept` 返回实收号。`receipts.lookup(receipt_id)` 交回原始字节和已核对出处。冲突复投须拒收。
 - `ReportRepository(path)` 管理报告库。`compare(receipts, reports, ReviewRequest(batch, primary_receipt, reference_receipt, threshold))` 用指定顺序计算并返回 `SignedReport`。两件都须归属请求批次。`sources` 顺序对应主件和对照件，每项含实收号、发行号、摘要、站名及修订出处。
 - `read_report(reports, report_id)` 返回原签稿。`followup(reports, shift, report_ids)` 接受 `day` 或 `night` 及报告号集合，按报告号升序返回补测项。相同报告号只列一次。任一报告缺失会使整次请求失败。
+- `prescribe(receipts, reports, PrescriptionRequest(batch, primary_receipt, reference_receipt, max_order, c0, threshold))` 签出延时补偿定稿，见 PRESCRIPTION.md。`read_prescription(reports, prescription_id)` 返回原定稿，`collect_prescription(reports, prescription_id)` 只对 `executable` 交付完整系数元组。
 
 库对象提供 `close()`。初始化只建立缺失结构，重开保留记录。修订采用追加方式，勘误不更新父版。通过公开接口收到的校验错误为 `ValueError`，未知修订、实收和报告为 `KeyError`，数据库操作失败保留 SQLite 异常。复检失败时无新定稿或补测项。
 

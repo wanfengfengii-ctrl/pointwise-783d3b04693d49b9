@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
 from reports.repository import ReportRepository
+from review.prescription import EXECUTABLE
 from review.verdict import Verdict
 
 
@@ -25,3 +26,13 @@ def followup(repository: ReportRepository, shift: str, report_ids) -> tuple[Foll
     reports = repository.get_reports(sorted(set(ids)))
     return tuple(FollowupItem(shift, report.report_id, report.batch)
                  for report in reports if report.verdict == Verdict.RETEST.value)
+
+
+def collect_prescription(repository: ReportRepository, prescription_id: int):
+    """Hand over the full coefficient tuple of an executable prescription."""
+    prescription = repository.get_prescription(prescription_id)
+    if prescription is None:
+        raise KeyError(prescription_id)
+    if prescription.status != EXECUTABLE:
+        return None
+    return prescription.coefficients

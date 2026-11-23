@@ -24,8 +24,8 @@
 
 ## 样例与核验
 
-`samples/prescription.json` 中 `primary` 和 `reference` 是站端模型参数，`v1` 为同拍复检结果，`requests` 为本次处方的申请参数和预期结果。`prescription_sample.receive_pair(station, receipts, case)` 通过实际发件和实收接口返回主件、对照件各自的 `(修订号, 实收号)`。`receive_model(station, receipts, batch, channel, values, parent_id=None)` 可用同样流程接收单件或带父修订的勘误。运行 `python3 -B prescription_sample.py` 可查这些样例的 V1 复检与补测结果。
+`samples/prescription.json` 中 `primary` 和 `reference` 是站端模型参数，`v1` 为同拍复检结果，`requests` 为本次处方的申请参数和预期结果。`prescription_sample.receive_pair(station, receipts, case)` 通过实际发件和实收接口返回主件、对照件各自的 `(修订号, 实收号)`。`receive_model(station, receipts, batch, channel, values, parent_id=None)` 可用同样流程接收单件或带父修订的勘误。`prescription_sample.verify_prescriptions(cases)` 逐条核对申请结果、出处顺序、定稿回读、领用交付、勘误后的 `no_finite`，以及关库后仅凭报告库按号重放；`verify_commit_failure()` 用延迟外键制造提交失败并确认无新定稿。运行 `python3 -B prescription_sample.py` 可查这些样例的 V1 复检、补测与处方结果。
 
 `QL-FIR-17` 的完整主响应为 `1/(1−2q) + q/(1−q/2)`，对照为 `1/(1−2q)`。首项 1、门槛 1/3 时，一阶只能签有限超限 4/3，二阶应签可执行 `(1,1,−2)`、能量 1/3。按原对照修订接收样例的 `amendment` 后，用新实收号提交同样的二阶申请应得 `no_finite`。关闭站库与实收库后重开报告库，原号仍应领出原设置及固定出处。`QL-FIR-REPEATED` 核对重复极点的消除，`QL-FIR-ZERO` 核对恒零对照与有限瞬态，`QL-FIR-OUTSIDE` 核对单件范围拒绝。
 
-沿用 `.pointwise-runtime.json` 的核验和演示约定。verify 运行完整 V1 回归和处方业务核验，失败时退出非零。可参考 `tests/test_review.py` 的 `test_commit_failure_does_not_publish`，在处方写入路径用延迟外键使提交失败，检查解除故障后能继续签发。demo 保留原工作日演示，并展示事故双件的处方签发及关库后按号领用。
+沿用 `.pointwise-runtime.json` 的核验和演示约定。verify 运行完整 V1 回归和处方业务核验，失败时退出非零。`tests/test_prescription.py` 覆盖三态判定、门槛等号、重复极点、恒零对照、单件越界拒绝、非法申请、批次与顺序、关库回读和提交回滚；`tests/test_prescription_sample.py` 直接驱赶 `prescription_sample.py` 的样例核验（含延迟外键提交失败，检查解除故障后能继续签发）。demo 保留原工作日演示，并展示事故双件的处方签发及关库后按号领用。
