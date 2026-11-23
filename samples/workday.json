@@ -1,0 +1,27 @@
+{
+  "station_id": "qinglan-bench",
+  "batch": "QL-17",
+  "threshold": "1",
+  "next_shift": "day",
+  "primary": {
+    "channel": "primary",
+    "A": [[2]], "B": [1], "C": [1], "D": 1,
+    "state_ids": ["bench-main-07"],
+    "topology": "main acquisition chain",
+    "raw_rows": ["workday/main/first-capture"]
+  },
+  "reference": {
+    "channel": "reference",
+    "A": [[2]], "B": [1], "C": [1], "D": 0,
+    "state_ids": ["bench-ref-03"],
+    "topology": "reference acquisition chain",
+    "raw_rows": ["workday/reference/first-capture"]
+  },
+  "amendment": {
+    "channel": "reference",
+    "A": [[2]], "B": [1], "C": [2], "D": 0,
+    "state_ids": ["bench-ref-03"],
+    "topology": "reference acquisition chain",
+    "raw_rows": ["workday/reference/corrected-capture"]
+  }
+}

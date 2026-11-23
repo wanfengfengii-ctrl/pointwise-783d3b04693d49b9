@@ -1,0 +1,39 @@
+[
+  {
+    "batch": "QL-FIR-17",
+    "primary": {"A": [[2, 0], [0, "1/2"]], "B": [1, 1], "C": [2, 1], "D": 1},
+    "reference": {"A": [[2]], "B": [1], "C": [2], "D": 1},
+    "amendment": {"A": [["1/2"]], "B": [1], "C": ["1/2"], "D": 1},
+    "v1": {"threshold": "1/3", "energy": "4/3", "verdict": "retest"},
+    "requests": [
+      {"max_order": 1, "c0": 1, "threshold": "1/3", "status": "over_threshold", "energy": "4/3", "coefficients": null},
+      {"max_order": 2, "c0": 1, "threshold": "1/3", "status": "executable", "energy": "1/3", "coefficients": ["1", "1", "-2"]}
+    ]
+  },
+  {
+    "batch": "QL-FIR-REPEATED",
+    "primary": {"A": [], "B": [], "C": [], "D": 0},
+    "reference": {"A": [[2, 1], [0, 2]], "B": [0, 1], "C": [4, 4], "D": 1},
+    "v1": {"threshold": "1", "energy": null, "verdict": "retest"},
+    "requests": [
+      {"max_order": 1, "c0": 1, "threshold": "1", "status": "no_finite", "energy": null, "coefficients": null},
+      {"max_order": 2, "c0": 1, "threshold": "1", "status": "executable", "energy": "1", "coefficients": ["1", "-4", "4"]}
+    ]
+  },
+  {
+    "batch": "QL-FIR-ZERO",
+    "primary": {"A": [[0, 0], [1, 0]], "B": [1, 0], "C": [0, -1], "D": 0},
+    "reference": {"A": [[3]], "B": [1], "C": [0], "D": 0},
+    "v1": {"threshold": "1", "energy": "1", "verdict": "release"},
+    "requests": [
+      {"max_order": 3, "c0": "-3/2", "threshold": "1", "status": "executable", "energy": "1", "coefficients": ["-3/2", "0", "0", "0"]}
+    ]
+  },
+  {
+    "batch": "QL-FIR-OUTSIDE",
+    "primary": {"A": [[3]], "B": [1], "C": [3], "D": 1},
+    "reference": {"A": [[3]], "B": [1], "C": [3], "D": 1},
+    "v1": {"threshold": "0", "energy": "0", "verdict": "release"},
+    "requests": [{"max_order": 0, "c0": 1, "threshold": "0", "error": "ValueError"}]
+  }
+]
